@@ -31,9 +31,10 @@ import { __ } from '@wordpress/i18n';
 import { clamp } from '../../../../animation';
 import { trackEvent } from '../../../../tracking';
 import { TransformProvider } from '../../../../edit-story/components/transform';
-import { Layout, useToastContext } from '../../../components';
+import { Layout } from '../../../components';
 import { useTemplateView, usePagePreviewSize } from '../../../utils/';
 import { useConfig } from '../../config';
+import { useSnackbarContext } from '../../snackbar';
 import FontProvider from '../../font/fontProvider';
 import { resolveRelatedTemplateRoute } from '../../router';
 import useRouteHistory from '../../router/useRouteHistory';
@@ -56,9 +57,11 @@ function TemplateDetails() {
     actions,
   } = useRouteHistory();
 
-  const { addToast } = useToastContext(({ actions: { addToast } }) => ({
-    addToast,
-  }));
+  const { addSnackbarMessage } = useSnackbarContext(
+    ({ actions: { addSnackbarMessage } }) => ({
+      addSnackbarMessage,
+    })
+  );
 
   const {
     isLoading,
@@ -123,7 +126,7 @@ function TemplateDetails() {
     templateFetchFn(id)
       .then(setTemplate)
       .catch(() => {
-        addToast({
+        addSnackbarMessage({
           message: { body: __('Could not load the template.', 'web-stories') },
           severity: ALERT_SEVERITY.ERROR,
           id: Date.now(),
@@ -137,7 +140,7 @@ function TemplateDetails() {
     isLocal,
     templateId,
     templates,
-    addToast,
+    addSnackbarMessage,
   ]);
 
   const templatedId = template?.id;

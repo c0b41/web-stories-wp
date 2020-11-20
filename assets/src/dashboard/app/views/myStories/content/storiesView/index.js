@@ -29,12 +29,13 @@ import { __, sprintf } from '@wordpress/i18n';
 /**
  * Internal dependencies
  */
+import { trackEvent } from '../../../../../../tracking';
 import { StoriesPropType, StoryActionsPropType } from '../../../../../types';
 import {
   SortPropTypes,
   ViewPropTypes,
 } from '../../../../../utils/useStoryView';
-import { Button, Dialog, useToastContext } from '../../../../../components';
+import { Button, Dialog } from '../../../../../components';
 import {
   VIEW_STYLE,
   STORY_ITEM_CENTER_ACTION_LABELS,
@@ -43,8 +44,8 @@ import {
   BUTTON_TYPES,
   ALERT_SEVERITY,
 } from '../../../../../constants';
+import { useSnackbarContext } from '../../../../snackbar';
 import { StoryGridView, StoryListView } from '../../../shared';
-import { trackEvent } from '../../../../../../tracking';
 
 const ACTIVE_DIALOG_DELETE_STORY = 'DELETE_STORY';
 function StoriesView({
@@ -68,8 +69,8 @@ function StoriesView({
   const [returnStoryFocusId, setReturnStoryFocusId] = useState(null);
 
   const {
-    actions: { addToast },
-  } = useToastContext();
+    actions: { addSnackbarMessage },
+  } = useSnackbarContext();
 
   const isActiveDeleteStoryDialog =
     activeDialog === ACTIVE_DIALOG_DELETE_STORY && activeStory;
@@ -148,7 +149,7 @@ function StoriesView({
         case STORY_CONTEXT_MENU_ACTIONS.COPY_STORY_LINK:
           global.navigator.clipboard.writeText(story.link);
 
-          addToast({
+          addSnackbarMessage({
             message: {
               title: __('URL copied', 'web-stories'),
               body:
@@ -175,7 +176,7 @@ function StoriesView({
           break;
       }
     },
-    [addToast, storyActions]
+    [addSnackbarMessage, storyActions]
   );
 
   const enabledMenuItems = useMemo(() => {
