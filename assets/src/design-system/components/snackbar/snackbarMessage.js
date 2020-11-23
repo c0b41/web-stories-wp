@@ -44,6 +44,8 @@ const slideIn = keyframes`
 
 const MessageContainer = styled.div`
   box-sizing: border-box;
+  position: fixed;
+  bottom: 16px;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -53,13 +55,19 @@ const MessageContainer = styled.div`
   padding: 14px 16px;
   margin-top: 20px;
   background-color: ${({ theme }) => theme.colors.inverted.bg.primary};
+  background-color: red;
   color: ${({ theme }) => theme.colors.inverted.fg.primary};
   border: ${({ theme }) =>
     `1px solid ${rgba(theme.colors.standard.white, 0.24)}`};
-  border-radius: ${({ theme }) => theme.borders.radius.small};
-
+  border-radius: ${({ theme }) => theme.borders.radius};
+  z-index: ${({ customZIndex }) =>
+    customZIndex || THEME_CONSTANTS.Z_INDEX.SNACKBAR};
   animation: 0.5s ${slideIn} ease-out;
 `;
+MessageContainer.propTypes = {
+  customZIndex: PropTypes.number,
+  hasAction: PropTypes.bool,
+};
 
 const Message = styled(Text)`
   color: ${({ theme }) => theme.colors.inverted.fg.primary};
@@ -84,6 +92,7 @@ const ActionButton = styled(Button)`
 const SnackbarMessage = ({
   actionLabel,
   ariaLabel,
+  customZIndex,
   handleAction = () => {},
   handleDismiss,
   isPreventAutoDismiss,
@@ -118,6 +127,7 @@ const SnackbarMessage = ({
     <MessageContainer
       role="alert"
       aria-label={ariaLabel}
+      customZIndex={customZIndex}
       hasAction={Boolean(actionLabel)}
     >
       <Message size={THEME_CONSTANTS.TYPOGRAPHY.PRESET_SIZES.SMALL}>
@@ -135,6 +145,7 @@ SnackbarMessage.propTypes = {
   message: PropTypes.string.isRequired,
   handleDismiss: PropTypes.func.isRequired,
   actionLabel: PropTypes.string,
+  customZIndex: PropTypes.number,
   handleAction: PropTypes.func,
   isPreventAutoDismiss: PropTypes.bool,
   removeMessageTimeInterval: PropTypes.number,

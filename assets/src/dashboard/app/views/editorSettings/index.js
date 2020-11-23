@@ -37,6 +37,7 @@ import {
 import { useConfig } from '../../config';
 import { PageHeading } from '../shared';
 import useTelemetryOptIn from '../shared/useTelemetryOptIn';
+import { DashboardSnackbar } from '..';
 import GoogleAnalyticsSettings from './googleAnalytics';
 import { Main, Wrapper } from './components';
 import PublisherLogoSettings from './publisherLogo';
@@ -338,6 +339,9 @@ function EditorSettings() {
             />
           </Main>
         </Layout.Scrollable>
+        <Layout.Fixed>
+          <DashboardSnackbar />
+        </Layout.Fixed>
       </Wrapper>
 
       <Dialog

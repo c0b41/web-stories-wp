@@ -38,7 +38,7 @@ import { useSnackbarContext } from '../../snackbar';
 import FontProvider from '../../font/fontProvider';
 import { resolveRelatedTemplateRoute } from '../../router';
 import useRouteHistory from '../../router/useRouteHistory';
-import { PreviewStoryView } from '..';
+import { DashboardSnackbar, PreviewStoryView } from '..';
 
 import useApi from '../../api/useApi';
 import { ALERT_SEVERITY } from '../../../constants';
@@ -235,6 +235,9 @@ function TemplateDetails() {
               handlePreviewTemplate,
             }}
           />
+          <Layout.Fixed>
+            <DashboardSnackbar />
+          </Layout.Fixed>
         </Layout.Provider>
       </TransformProvider>
     </FontProvider>

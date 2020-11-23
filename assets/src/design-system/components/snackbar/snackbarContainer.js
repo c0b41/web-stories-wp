@@ -22,19 +22,16 @@ import styled from 'styled-components';
 /**
  * Internal dependencies
  */
-import { THEME_CONSTANTS } from '../../theme';
 
 export const SnackbarContainer = styled.div`
-  position: fixed;
-  bottom: 16px;
+  position: absolute;
+  bottom: 0;
   left: 0;
   right: 0;
   display: flex;
   flex-direction: column;
-  align-items: ${({ alignItems }) => alignItems};
   width: 100%;
-  z-index: ${({ customZIndex }) =>
-    customZIndex || THEME_CONSTANTS.Z_INDEX.SNACKBAR};
+  align-items: ${({ alignItems }) => alignItems};
 `;
 
 SnackbarContainer.propTypes = {
