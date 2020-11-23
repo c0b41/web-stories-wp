@@ -55,7 +55,6 @@ const MessageContainer = styled.div`
   padding: 14px 16px;
   margin-top: 20px;
   background-color: ${({ theme }) => theme.colors.inverted.bg.primary};
-  background-color: red;
   color: ${({ theme }) => theme.colors.inverted.fg.primary};
   border: ${({ theme }) =>
     `1px solid ${rgba(theme.colors.standard.white, 0.24)}`};

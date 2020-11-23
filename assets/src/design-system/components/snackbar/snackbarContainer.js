@@ -30,8 +30,8 @@ export const SnackbarContainer = styled.div`
   right: 0;
   display: flex;
   flex-direction: column;
-  width: 100%;
   align-items: ${({ alignItems }) => alignItems};
+  width: 100%;
 `;
 
 SnackbarContainer.propTypes = {

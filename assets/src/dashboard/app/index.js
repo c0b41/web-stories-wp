@@ -128,17 +128,17 @@ function App({ config }) {
     <StyleSheetManager stylisPlugins={isRTL ? [stylisRTLPlugin] : []}>
       <ThemeProvider theme={activeTheme}>
         <ConfigProvider config={config}>
-          <SnackbarProvider>
-            <ApiProvider>
-              <NavProvider>
-                <RouterProvider>
+          <ApiProvider>
+            <NavProvider>
+              <RouterProvider>
+                <SnackbarProvider>
                   <GlobalStyle />
                   <KeyboardOnlyOutline />
                   <AppContent />
-                </RouterProvider>
-              </NavProvider>
-            </ApiProvider>
-          </SnackbarProvider>
+                </SnackbarProvider>
+              </RouterProvider>
+            </NavProvider>
+          </ApiProvider>
         </ConfigProvider>
       </ThemeProvider>
     </StyleSheetManager>
