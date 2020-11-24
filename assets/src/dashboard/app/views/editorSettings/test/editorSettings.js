@@ -61,12 +61,16 @@ function createProviderValues({
           googleAnalyticsId,
           activePublisherLogoId: activeLogoId,
           publisherLogoIds: logoIds,
+          error: {},
         },
         media: {
           isLoading,
           newlyCreatedMediaIds: [],
           mediaById: logos,
+          error: {},
         },
+        stories: { error: {} },
+        templates: { error: {} },
         currentUser: {
           isUpdating: false,
           data: {
