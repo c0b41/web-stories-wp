@@ -22,7 +22,7 @@ import { __ } from '@wordpress/i18n';
 /**
  * External dependencies
  */
-import { useCallback, useMemo } from 'react';
+import { useCallback, useMemo, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -34,7 +34,7 @@ import {
   BG_MAX_SCALE,
   BG_MIN_SCALE,
   progress,
-  // STORY_ANIMATION_STATE,
+  STORY_ANIMATION_STATE,
 } from '../../../../animation';
 import { getAnimationEffectDefaults } from '../../../../animation/parts';
 import StoryPropTypes, { AnimationPropType } from '../../../types';
@@ -50,8 +50,9 @@ function AnimationPanel({
   selectedElements,
   selectedElementAnimations,
   pushUpdateForObject,
-  // updateAnimationState,
+  updateAnimationState,
 }) {
+  const playUpdatedAnimation = useRef(false);
   const handlePanelChange = useCallback(
     (animation, submitArg = false) => {
       pushUpdateForObject(ANIMATION_PROPERTY, animation, null, submitArg);
@@ -107,17 +108,20 @@ function AnimationPanel({
         null,
         true
       );
+
+      playUpdatedAnimation.current = true;
     },
     [elAnimationId, isBackground, pushUpdateForObject, backgroundScale]
   );
 
-  // const updatedAnimationType = updatedAnimations[0]?.type;
-  // useEffect(() => {
-  //   console.log('Animation Type Update');
-  //   updateAnimationState({
-  //     animationState: STORY_ANIMATION_STATE.PLAYING_SELECTED,
-  //   });
-  // }, [updatedAnimationType, updateAnimationState]);
+  useEffect(() => {
+    if (playUpdatedAnimation.current) {
+      updateAnimationState({
+        animationState: STORY_ANIMATION_STATE.PLAYING,
+      });
+      playUpdatedAnimation.current = false;
+    }
+  }, [selectedElementAnimations, updateAnimationState]);
 
   const handleRemoveEffect = useCallback(() => {
     pushUpdateForObject(
@@ -160,7 +164,7 @@ AnimationPanel.propTypes = {
   selectedElements: PropTypes.arrayOf(StoryPropTypes.element).isRequired,
   selectedElementAnimations: PropTypes.arrayOf(AnimationPropType),
   pushUpdateForObject: PropTypes.func.isRequired,
-  // updateAnimationState: PropTypes.func,
+  updateAnimationState: PropTypes.func,
 };
 
 export default AnimationPanel;
