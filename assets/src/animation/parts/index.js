@@ -39,6 +39,7 @@ import { EffectWhooshIn } from '../effects/whooshIn';
 import { EffectZoom } from '../effects/zoom';
 import { EffectRotateIn } from '../effects/rotateIn';
 import { EffectBackgroundZoom } from '../effects/backgroundZoom';
+import fadeInProps from '../effects/fadeIn/animationProps';
 import flyInProps from '../effects/flyIn/animationProps';
 import panProps from '../effects/pan/animationProps';
 import pulseProps from '../effects/pulse/animationProps';
@@ -47,6 +48,7 @@ import whooshInProps from '../effects/whooshIn/animationProps';
 import zoomEffectProps from '../effects/zoom/animationProps';
 import backgroundZoomEffectProps from '../effects/backgroundZoom/animationProps';
 
+import { orderByKeys } from '../utils';
 import { AnimationBounce } from './bounce';
 import { AnimationBlinkOn } from './blinkOn';
 import { AnimationFade } from './fade';
@@ -153,6 +155,7 @@ export function getAnimationEffectProps(type) {
     [ANIMATION_EFFECTS.PAN.value]: panProps,
     [ANIMATION_EFFECTS.PULSE.value]: pulseProps,
     [ANIMATION_EFFECTS.ROTATE_IN.value]: rotateInProps,
+    [ANIMATION_EFFECTS.FADE_IN.value]: fadeInProps,
     [ANIMATION_EFFECTS.WHOOSH_IN.value]: whooshInProps,
     [ANIMATION_EFFECTS.ZOOM.value]: zoomEffectProps,
     [BACKGROUND_ANIMATION_EFFECTS.ZOOM.value]: backgroundZoomEffectProps,
@@ -160,12 +163,18 @@ export function getAnimationEffectProps(type) {
 
   return {
     type,
-    props: {
-      // This order is important.
-      // We want custom props to appear above default props
-      ...(customProps[type] || {}),
-      ...basicAnimationProps,
-    },
+    // This order is important.
+    // We want custom props to appear above default props
+    props: orderByKeys({
+      obj: {
+        ...basicAnimationProps,
+        ...(customProps[type] || {}),
+      },
+      keys: Object.keys({
+        ...(customProps[type] || {}),
+        ...basicAnimationProps,
+      }),
+    }),
   };
 }
 

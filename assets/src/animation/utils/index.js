@@ -14,3 +14,4 @@
  * limitations under the License.
  */
 export { clamp, lerp, progress } from './range';
+export { orderByKeys, getExclusion } from './objectOperations';
